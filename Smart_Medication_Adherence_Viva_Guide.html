@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Medication Adherence Platform - Viva & Technical Defense Guide</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.55;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Cover Page */
+  .cover {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 20px 20px;
+    border: 3px solid #769575;
+    border-radius: 12px;
+  }
+  .cover-header {
+    text-align: center;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 25px;
+  }
+  .badge {
+    display: inline-block;
+    background: #eef4eb;
+    color: #436545;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    border: 1px solid #c9dec7;
+  }
+  .cover-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #26352d;
+    margin: 8px 0 12px;
+    letter-spacing: -0.5px;
+  }
+  .cover-subtitle {
+    font-size: 15px;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .cover-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 30px 0;
+  }
+  .cover-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .cover-card h4 {
+    margin: 0 0 6px;
+    color: #334155;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .cover-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 500;
+  }
+  .cover-footer {
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  /* Document Typography */
+  h1, h2, h3, h4 {
+    color: #1e293b;
+    font-weight: 700;
+    margin-top: 0;
+  }
+  h1 {
+    font-size: 22px;
+    border-bottom: 2px solid #769575;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    color: #26352d;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h2 {
+    font-size: 16px;
+    color: #334155;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-left: 4px solid #769575;
+    padding-left: 8px;
+  }
+  h3 {
+    font-size: 14px;
+    color: #475569;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  p {
+    margin: 0 0 10px;
+    color: #334155;
+  }
+  ul, ol {
+    margin: 0 0 12px;
+    padding-left: 22px;
+    color: #334155;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    font-size: 11.5px;
+  }
+  th, td {
+    padding: 8px 10px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  th {
+    background: #f1f5f9;
+    color: #1e293b;
+    font-weight: 700;
+  }
+  tr:nth-child(even) td {
+    background: #fafaf9;
+  }
+
+  /* Callout Boxes */
+  .callout {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-size: 12px;
+  }
+  .callout-warning {
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-left: 4px solid #f59e0b;
+  }
+  .callout-info {
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    border-left: 4px solid #3b82f6;
+  }
+
+  /* Code snippet */
+  code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 11px;
+  }
+  pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
+
+  /* Diagrams */
+  .diagram-container {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 14px;
+    margin: 14px 0;
+    text-align: center;
+  }
+  .diagram-title {
+    font-weight: 700;
+    font-size: 12px;
+    color: #475569;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Q&A Cards */
+  .qa-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .qa-question {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .qa-badge {
+    background: #769575;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .qa-answer {
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .qa-answer strong {
+    color: #0f172a;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover page-break">
+  <div class="cover-header">
+    <div class="badge">Comprehensive Viva Voce & Technical Defense Document</div>
+    <div class="cover-title">Smart Medication Adherence Dashboard</div>
+    <div class="cover-subtitle">Full-Stack Enterprise Health Routine Platform Built with Java 17, Spring Boot 3, H2 Database & React 19</div>
+  </div>
+
+  <div class="cover-grid">
+    <div class="cover-card">
+      <h4>Platform Name</h4>
+      <p>Elowen (Smart Medication Adherence)</p>
+    </div>
+    <div class="cover-card">
+      <h4>Architecture</h4>
+      <p>Decoupled Client-Server (REST API + JWT)</p>
+    </div>
+    <div class="cover-card">
+      <h4>Backend Stack</h4>
+      <p>Java 17 LTS, Spring Boot 3.2.5, JPA/Hibernate</p>
+    </div>
+    <div class="cover-card">
+      <h4>Frontend Stack</h4>
+      <p>React 19, TypeScript, Tailwind CSS, Vite 8</p>
+    </div>
+    <div class="cover-card">
+      <h4>Database</h4>
+      <p>H2 Database (Embedded &amp; File Persistent)</p>
+    </div>
+    <div class="cover-card">
+      <h4>Security Engine</h4>
+      <p>Spring Security 6 + JJWT (Stateless Bearer Tokens)</p>
+    </div>
+  </div>
+
+  <div class="callout callout-info" style="margin: 0 auto; max-width: 90%;">
+    <strong>Viva Tip:</strong> Examiners prioritize understanding <em>why</em> specific frameworks and architectural patterns were chosen, <em>how data flows</em> from UI to database, and <em>how security (JWT + BCrypt)</em> is enforced. This guide provides every technical detail required to score top marks.
+  </div>
+
+  <div class="cover-footer">
+    Academic Defense &amp; Project Evaluation Guide &bull; Generated for Technical Viva Assessment
+  </div>
+</div>
+
+<!-- ================= SECTION 1: PROJECT OVERVIEW ================= -->
+<h1>1. Project Overview & Problem Statement</h1>
+
+<h2>1.1 The Real-World Healthcare Problem</h2>
+<p>
+  According to the World Health Organization (WHO), approximately <strong>50% of patients with chronic illnesses fail to adhere to their prescribed medication routines</strong>. Non-adherence leads to severe clinical complications, preventable hospital readmissions, increased healthcare costs (over $100 Billion annually in the US alone), and preventable mortality.
+</p>
+<p>Key pain points patients face include:</p>
+<ul>
+  <li><strong>Forgetfulness & Routine Disruption:</strong> Busy lifestyles, changing schedules, and complex multiple-dose regimens.</li>
+  <li><strong>Pill Burden & Inventory Mismanagement:</strong> Running out of essential medications unexpectedly without refill awareness.</li>
+  <li><strong>Lack of Caregiver Visibility:</strong> Family members and doctors lack real-time visibility into whether elderly or vulnerable patients have taken their daily doses.</li>
+  <li><strong>Static/Clunky Reminders:</strong> Traditional alarm apps lack intelligent scheduling, adherence rate calculations, and contextual insights.</li>
+</ul>
+
+<h2>1.2 The Elowen Solution</h2>
+<p>
+  <strong>Elowen</strong> is a full-stack, enterprise-grade medication management and adherence analytics platform designed with patient empathy and clinical rigor. It bridges the gap between daily routines and clinical outcomes:
+</p>
+<div class="diagram-container">
+  <div class="diagram-title">Core Value Proposition</div>
+  <svg width="620" height="110" viewBox="0 0 620 110">
+    <rect x="10" y="20" width="130" height="70" rx="8" fill="#eef4eb" stroke="#769575" stroke-width="2"/>
+    <text x="75" y="48" font-size="11" font-weight="bold" text-anchor="middle" fill="#26352d">Real-Time Doses</text>
+    <text x="75" y="66" font-size="9" text-anchor="middle" fill="#555">Confirm, Snooze, Miss</text>
+
+    <line x1="140" y1="55" x2="165" y2="55" stroke="#769575" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="170" y="20" width="130" height="70" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="235" y="48" font-size="11" font-weight="bold" text-anchor="middle" fill="#1e3a8a">Adherence Engine</text>
+    <text x="235" y="66" font-size="9" text-anchor="middle" fill="#555">Live KPI &amp; Streak Metrics</text>
+
+    <line x1="300" y1="55" x2="325" y2="55" stroke="#769575" stroke-width="2"/>
+
+    <rect x="330" y="20" width="130" height="70" rx="8" fill="#fdf2f8" stroke="#ec4899" stroke-width="2"/>
+    <text x="395" y="48" font-size="11" font-weight="bold" text-anchor="middle" fill="#831843">NLP Smart Scheduler</text>
+    <text x="395" y="66" font-size="9" text-anchor="middle" fill="#555">Natural Language Parsing</text>
+
+    <line x1="460" y1="55" x2="485" y2="55" stroke="#769575" stroke-width="2"/>
+
+    <rect x="490" y="20" width="120" height="70" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="550" y="48" font-size="11" font-weight="bold" text-anchor="middle" fill="#78350f">Care Circle</text>
+    <text x="550" y="66" font-size="9" text-anchor="middle" fill="#555">Consent-based Alerts</text>
+  </svg>
+</div>
+
+<h2>1.3 Key Functional Features</h2>
+<ol>
+  <li><strong>Interactive Dose Tracking:</strong> One-click dose confirmation with live state transitions (<em>Upcoming &rarr; Due soon &rarr; Taken / Snoozed / Missed</em>).</li>
+  <li><strong>Automated Inventory Decrement:</strong> Recording a dose as "Taken" automatically deducts pill count from the medication table and forecasts refill dates.</li>
+  <li><strong>Clinical Adherence Algorithm:</strong> Computes statistical consistency score over a 30-day sliding window, tracking streaks and missed dose distributions.</li>
+  <li><strong>Natural Language AI Scheduler:</strong> Allows users to speak/type naturally (e.g., <em>"Remind me to take Metformin with dinner every weekday at 7:30 PM"</em>), parsing entity tokens into schedules.</li>
+  <li><strong>Multi-tier Care Circle:</strong> Supports consent-based permissions for primary caregivers, clinicians, and family contacts.</li>
+  <li><strong>Audit Trail &amp; History:</strong> Complete chronological event ledger with CSV export capabilities for medical consultations.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 2: SYSTEM ARCHITECTURE ================= -->
+<h1>2. System Architecture & Flow Charts</h1>
+
+<h2>2.1 High-Level 3-Tier Layered Architecture</h2>
+<p>
+  The platform strictly adopts industry-standard separation of concerns, separating the Presentation Tier (React SPA), Business Logic Tier (Spring Boot REST Services), and Data Persistence Tier (JPA / H2 Database).
+</p>
+
+<div class="diagram-container avoid-break">
+  <div class="diagram-title">Figure 1: Full-Stack Tiered Architecture</div>
+  <svg width="600" height="230" viewBox="0 0 600 230">
+    <!-- Client Layer -->
+    <rect x="30" y="15" width="540" height="50" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="45" y="36" font-size="12" font-weight="bold" fill="#0369a1">PRESENTATION LAYER (Frontend - Port 8443 / 5173)</text>
+    <text x="45" y="52" font-size="10" fill="#0284c7">React 19 &bull; TypeScript &bull; Vite Proxy &bull; Axios/Fetch &bull; Tailwind CSS &bull; LocalStorage JWT Management</text>
+
+    <!-- Communication -->
+    <line x1="300" y1="65" x2="300" y2="85" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
+    <text x="310" y="78" font-size="9" fill="#64748b" font-weight="bold">HTTPS / REST JSON &bull; Authorization: Bearer &lt;JWT&gt;</text>
+
+    <!-- Backend Layer -->
+    <rect x="30" y="85" width="540" height="75" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="45" y="104" font-size="12" font-weight="bold" fill="#15803d">APPLICATION &amp; BUSINESS LOGIC LAYER (Spring Boot - Port 8080)</text>
+    <text x="45" y="122" font-size="10" fill="#166534">Spring Security (JWT Filter) &rarr; REST Controllers &rarr; Service Layer &rarr; Spring Data JPA Repositories</text>
+    <text x="45" y="140" font-size="9.5" fill="#4b5563">Embedded Apache Tomcat &bull; BCrypt Password Hashing &bull; Regex NLP Engine &bull; Transactional Services</text>
+
+    <!-- Communication -->
+    <line x1="300" y1="160" x2="300" y2="175" stroke="#64748b" stroke-width="2"/>
+    <text x="310" y="170" font-size="9" fill="#64748b" font-weight="bold">JDBC / Hibernate ORM Dialect</text>
+
+    <!-- Database Layer -->
+    <rect x="30" y="175" width="540" height="45" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+    <text x="45" y="194" font-size="12" font-weight="bold" fill="#b45309">DATA PERSISTENCE LAYER (H2 Database Engine)</text>
+    <text x="45" y="209" font-size="10" fill="#92400e">File-Persistent Storage (./data/adherence_db) &bull; Web Console (/h2-console) &bull; Auto DDL Generation</text>
+  </svg>
+</div>
+
+<h2>2.2 Authentication & Security Flow Chart</h2>
+<p>
+  The system uses stateless JSON Web Token (JWT) authentication. No server-side HTTP session state is maintained, ensuring horizontal scalability and cross-origin security.
+</p>
+
+<div class="diagram-container avoid-break">
+  <div class="diagram-title">Figure 2: JWT Authentication &amp; Request Authorization Flow</div>
+  <svg width="600" height="210" viewBox="0 0 600 210">
+    <!-- Step 1 -->
+    <rect x="15" y="20" width="115" height="50" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+    <text x="72" y="42" font-size="10" font-weight="bold" text-anchor="middle">1. Client Submit</text>
+    <text x="72" y="55" font-size="8.5" text-anchor="middle" fill="#475569">POST /api/auth/login</text>
+
+    <line x1="130" y1="45" x2="160" y2="45" stroke="#475569" stroke-width="1.5"/>
+
+    <!-- Step 2 -->
+    <rect x="160" y="20" width="125" height="50" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+    <text x="222" y="38" font-size="10" font-weight="bold" text-anchor="middle">2. Auth Manager</text>
+    <text x="222" y="50" font-size="8" text-anchor="middle" fill="#475569">Find user by email &amp;</text>
+    <text x="222" y="61" font-size="8" text-anchor="middle" fill="#475569">BCrypt password match</text>
+
+    <line x1="285" y1="45" x2="315" y2="45" stroke="#475569" stroke-width="1.5"/>
+
+    <!-- Step 3 -->
+    <rect x="315" y="20" width="125" height="50" rx="5" fill="#e2e8f0" stroke="#64748b"/>
+    <text x="377" y="38" font-size="10" font-weight="bold" text-anchor="middle">3. Issue JWT Token</text>
+    <text x="377" y="50" font-size="8" text-anchor="middle" fill="#475569">Sign HMAC-SHA256</text>
+    <text x="377" y="61" font-size="8" text-anchor="middle" fill="#475569">Claims: sub, userId, exp</text>
+
+    <line x1="440" y1="45" x2="470" y2="45" stroke="#475569" stroke-width="1.5"/>
+
+    <!-- Step 4 -->
+    <rect x="470" y="20" width="115" height="50" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="527" y="42" font-size="10" font-weight="bold" text-anchor="middle" fill="#15803d">4. Response</text>
+    <text x="527" y="55" font-size="8.5" text-anchor="middle" fill="#166534">Return token + user</text>
+
+    <!-- Subsequent Request Flow -->
+    <rect x="15" y="115" width="570" height="75" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="30" y="135" font-size="10.5" font-weight="bold" fill="#334155">Subsequent Request Cycle (Protected Resource):</text>
+    <text x="30" y="152" font-size="9.5" fill="#475569">1. Frontend attaches header: <code>Authorization: Bearer &lt;token&gt;</code></text>
+    <text x="30" y="167" font-size="9.5" fill="#475569">2. <code>JwtAuthenticationFilter</code> intercepts request, extracts claims, validates signature &amp; expiration.</text>
+    <text x="30" y="182" font-size="9.5" fill="#475569">3. Sets authenticated <code>UsernamePasswordAuthenticationToken</code> in Spring's <code>SecurityContextHolder</code>.</text>
+  </svg>
+</div>
+
+<h2>2.3 Dose Confirmation & Inventory Decrement Flow</h2>
+<div class="diagram-container avoid-break">
+  <div class="diagram-title">Figure 3: Dose Action State &amp; Inventory Transaction</div>
+  <svg width="600" height="90" viewBox="0 0 600 90">
+    <rect x="10" y="15" width="120" height="55" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+    <text x="70" y="38" font-size="10" font-weight="bold" text-anchor="middle">User Click "Take"</text>
+    <text x="70" y="52" font-size="8.5" text-anchor="middle" fill="#64748b">action('TAKEN')</text>
+
+    <line x1="130" y1="42" x2="160" y2="42" stroke="#64748b" stroke-width="1.5"/>
+
+    <rect x="160" y="15" width="130" height="55" rx="5" fill="#e0f2fe" stroke="#0284c7"/>
+    <text x="225" y="38" font-size="10" font-weight="bold" text-anchor="middle">DoseController</text>
+    <text x="225" y="52" font-size="8.5" text-anchor="middle" fill="#0369a1">POST /api/doses/action</text>
+
+    <line x1="290" y1="42" x2="320" y2="42" stroke="#64748b" stroke-width="1.5"/>
+
+    <rect x="320" y="15" width="130" height="55" rx="5" fill="#fef3c7" stroke="#d97706"/>
+    <text x="385" y="35" font-size="10" font-weight="bold" text-anchor="middle">@Transactional</text>
+    <text x="385" y="48" font-size="8" text-anchor="middle" fill="#92400e">1. Save DoseLog</text>
+    <text x="385" y="60" font-size="8" text-anchor="middle" fill="#92400e">2. Med.pillCount - 1</text>
+
+    <line x1="450" y1="42" x2="480" y2="42" stroke="#64748b" stroke-width="1.5"/>
+
+    <rect x="480" y="15" width="110" height="55" rx="5" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="535" y="38" font-size="10" font-weight="bold" text-anchor="middle" fill="#15803d">Dashboard Sync</text>
+    <text x="535" y="52" font-size="8.5" text-anchor="middle" fill="#166534">Recalculate KPI</text>
+  </svg>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 3: TECHNICAL STACK DEEP DIVE ================= -->
+<h1>3. Detailed Technology Stack Breakdown</h1>
+
+<p>
+  Examiners often ask candidates to justify the exact role of each framework and dependency in the project. Below is a comprehensive specification:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 22%;">Technology</th>
+      <th style="width: 18%;">Component / Version</th>
+      <th>Architectural Role &amp; Justification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Java Language</strong></td>
+      <td>Java 17 LTS (Amazon / Oracle JDK)</td>
+      <td>Long-Term Support release offering modern language capabilities: Records, enhanced switch statements, text blocks, high JVM performance, and garbage collection optimizations.</td>
+    </tr>
+    <tr>
+      <td><strong>Backend Framework</strong></td>
+      <td>Spring Boot 3.2.5</td>
+      <td>Provides convention-over-configuration rapid development, auto-configuration of datasources/security, and an embedded Apache Tomcat web container.</td>
+    </tr>
+    <tr>
+      <td><strong>Security Engine</strong></td>
+      <td>Spring Security 6</td>
+      <td>Enforces defense-in-depth security: disabled CSRF for stateless REST, custom <code>CorsConfigurationSource</code>, and BCrypt password encryption (strength 10).</td>
+    </tr>
+    <tr>
+      <td><strong>Token Engine</strong></td>
+      <td>JJWT (io.jsonwebtoken) 0.12.5</td>
+      <td>Generates and cryptographically validates HMAC-SHA256 tokens storing user identity and expiration without server session storage.</td>
+    </tr>
+    <tr>
+      <td><strong>ORM / Persistence</strong></td>
+      <td>Spring Data JPA &bull; Hibernate 6</td>
+      <td>Maps Java entities directly to SQL relational tables; provides abstracted repository query methods (<code>findByUserId</code>, <code>existsByEmail</code>).</td>
+    </tr>
+    <tr>
+      <td><strong>Database</strong></td>
+      <td>H2 Database Engine 2.2.x</td>
+      <td>Zero-setup lightweight relational SQL database. Configured with file-based persistence (<code>jdbc:h2:file:./data/adherence_db</code>) ensuring data survives restarts.</td>
+    </tr>
+    <tr>
+      <td><strong>Frontend Library</strong></td>
+      <td>React 19</td>
+      <td>Component-driven SPA architecture utilizing reactive hooks (<code>useState</code>, <code>useEffect</code>, <code>useCallback</code>) for seamless real-time UI updates.</td>
+    </tr>
+    <tr>
+      <td><strong>Language / Type System</strong></td>
+      <td>TypeScript 5.7</td>
+      <td>Enforces static type safety across API interfaces (<code>User</code>, <code>Medication</code>, <code>DashboardOverview</code>), eliminating runtime null errors.</td>
+    </tr>
+    <tr>
+      <td><strong>Build Tools</strong></td>
+      <td>Maven 3.9 &bull; Vite 8</td>
+      <td>Maven handles backend dependency resolution and packaging into an executable JAR. Vite delivers rapid HMR (Hot Module Replacement) and bundling.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3.1 Natural Language Processing (NLP) Scheduling Engine</h2>
+<p>
+  One of the standout features of the platform is the rule-based Natural Language Scheduler implemented in [`ScheduleService.java`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/service/ScheduleService.java).
+</p>
+<div class="callout callout-info">
+  <strong>How it works:</strong>
+  When the patient inputs a plain English request like:
+  <br><code>"Remind me to take Metformin with dinner every weekday at 7:30 PM"</code>
+  <ol>
+    <li><strong>Temporal Pattern Extraction:</strong> Uses Regular Expressions (<code>\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\b</code>) to detect explicit times, or contextual keywords (<em>morning &rarr; 8:00 AM, lunch &rarr; 1:00 PM, dinner/evening &rarr; 7:30 PM</em>).</li>
+    <li><strong>Frequency Extraction:</strong> Matches keywords such as <em>"weekday"</em>, <em>"weekend"</em>, <em>"every day"</em>, or <em>"twice daily"</em>.</li>
+    <li><strong>Entity Matching:</strong> Scans the user's active medications in H2 to associate the routine with existing inventory (or creates a placeholder).</li>
+    <li><strong>Automatic Routine Generation:</strong> Synthesizes a new <code>Schedule</code> record and saves it directly to the database.</li>
+  </ol>
+</div>
+
+<h2>3.2 Adherence Rate Mathematical Formulation</h2>
+<p>
+  The system computes the clinical adherence metric across recorded historical doses using the formula:
+</p>
+<div class="callout" style="text-align: center; font-size: 13px;">
+  $$\text{Adherence Rate (\%)} = \left(\frac{N_{\text{taken}}}{N_{\text{taken}} + N_{\text{missed}} + N_{\text{skipped}}}\right) \times 100$$
+</div>
+<p>
+  <strong>Streak Calculation Logic:</strong> A continuous streak is maintained as long as no scheduled dose in the current sequence is recorded as <code>MISSED</code>.
+</p>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 4: DATABASE DESIGN & SCHEMA ================= -->
+<h1>4. Database Schema & Entity Relationships</h1>
+
+<p>
+  The database schema consists of 5 normalized relational tables managed via Hibernate DDL auto-generation:
+</p>
+
+<div class="diagram-container avoid-break">
+  <div class="diagram-title">Figure 4: Entity-Relationship (ER) Diagram</div>
+  <svg width="600" height="230" viewBox="0 0 600 230">
+    <!-- User Entity -->
+    <rect x="230" y="10" width="140" height="85" rx="5" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+    <rect x="230" y="10" width="140" height="22" rx="5" fill="#334155"/>
+    <text x="300" y="25" font-size="10" font-weight="bold" fill="white" text-anchor="middle">USERS (Primary)</text>
+    <text x="236" y="44" font-size="8.5" fill="#0f172a"><b>PK id</b>: BIGINT</text>
+    <text x="236" y="56" font-size="8.5" fill="#0f172a">email: VARCHAR (Unique)</text>
+    <text x="236" y="68" font-size="8.5" fill="#0f172a">password: VARCHAR (BCrypt)</text>
+    <text x="236" y="80" font-size="8.5" fill="#0f172a">name, timezone, alerts...</text>
+
+    <!-- Connector lines -->
+    <line x1="230" y1="50" x2="120" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="280" y1="95" x2="200" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="320" y1="95" x2="400" y2="130" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="370" y1="50" x2="480" y2="130" stroke="#64748b" stroke-width="1.5"/>
+
+    <!-- Medications -->
+    <rect x="30" y="130" width="125" height="90" rx="5" fill="#f8fafc" stroke="#16a34a"/>
+    <rect x="30" y="130" width="125" height="18" rx="5" fill="#16a34a"/>
+    <text x="92" y="143" font-size="9" font-weight="bold" fill="white" text-anchor="middle">MEDICATIONS (1:N)</text>
+    <text x="35" y="160" font-size="8" fill="#1e293b"><b>PK id</b>: BIGINT</text>
+    <text x="35" y="172" font-size="8" fill="#1e293b"><b>FK user_id</b>: BIGINT</text>
+    <text x="35" y="184" font-size="8" fill="#1e293b">name, dosage, detail</text>
+    <text x="35" y="196" font-size="8" fill="#1e293b">pillCount, totalCapacity</text>
+    <text x="35" y="208" font-size="8" fill="#1e293b">scheduleTime, refillDate</text>
+
+    <!-- Dose Logs -->
+    <rect x="170" y="130" width="125" height="90" rx="5" fill="#f8fafc" stroke="#0284c7"/>
+    <rect x="170" y="130" width="125" height="18" rx="5" fill="#0284c7"/>
+    <text x="232" y="143" font-size="9" font-weight="bold" fill="white" text-anchor="middle">DOSE_LOGS (1:N)</text>
+    <text x="175" y="160" font-size="8" fill="#1e293b"><b>PK id</b>: BIGINT</text>
+    <text x="175" y="172" font-size="8" fill="#1e293b"><b>FK user_id</b>: BIGINT</text>
+    <text x="175" y="184" font-size="8" fill="#1e293b"><b>FK medication_id</b></text>
+    <text x="175" y="196" font-size="8" fill="#1e293b">status: Taken/Snooze</text>
+    <text x="175" y="208" font-size="8" fill="#1e293b">doseDate, loggedAt</text>
+
+    <!-- Schedules -->
+    <rect x="310" y="130" width="125" height="90" rx="5" fill="#f8fafc" stroke="#d97706"/>
+    <rect x="310" y="130" width="125" height="18" rx="5" fill="#d97706"/>
+    <text x="372" y="143" font-size="9" font-weight="bold" fill="white" text-anchor="middle">SCHEDULES (1:N)</text>
+    <text x="315" y="160" font-size="8" fill="#1e293b"><b>PK id</b>: BIGINT</text>
+    <text x="315" y="172" font-size="8" fill="#1e293b"><b>FK user_id</b>: BIGINT</text>
+    <text x="315" y="184" font-size="8" fill="#1e293b">title: VARCHAR</text>
+    <text x="315" y="196" font-size="8" fill="#1e293b">frequency: VARCHAR</text>
+    <text x="315" y="208" font-size="8" fill="#1e293b">timeStr, medicationName</text>
+
+    <!-- Care Circle -->
+    <rect x="450" y="130" width="125" height="90" rx="5" fill="#f8fafc" stroke="#ec4899"/>
+    <rect x="450" y="130" width="125" height="18" rx="5" fill="#ec4899"/>
+    <text x="512" y="143" font-size="9" font-weight="bold" fill="white" text-anchor="middle">CARE_CIRCLE (1:N)</text>
+    <text x="455" y="160" font-size="8" fill="#1e293b"><b>PK id</b>: BIGINT</text>
+    <text x="455" y="172" font-size="8" fill="#1e293b"><b>FK user_id</b>: BIGINT</text>
+    <text x="455" y="184" font-size="8" fill="#1e293b">name: VARCHAR</text>
+    <text x="455" y="196" font-size="8" fill="#1e293b">relationship: VARCHAR</text>
+    <text x="455" y="208" font-size="8" fill="#1e293b">status: Active/Pending</text>
+  </svg>
+</div>
+
+<h2>4.1 Table Specifications</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Key Columns</th>
+      <th>Indexes &amp; Constraints</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>users</code></td>
+      <td><code>id</code> (PK), <code>email</code>, <code>password</code>, <code>name</code></td>
+      <td><code>email</code> UNIQUE index</td>
+      <td>Stores patient identity and encrypted BCrypt credentials.</td>
+    </tr>
+    <tr>
+      <td><code>medications</code></td>
+      <td><code>id</code> (PK), <code>user_id</code> (FK), <code>name</code>, <code>pill_count</code></td>
+      <td>FK referencing <code>users(id)</code></td>
+      <td>Inventory tracking, pill dosage, remaining quantity, and refill alerts.</td>
+    </tr>
+    <tr>
+      <td><code>dose_logs</code></td>
+      <td><code>id</code> (PK), <code>user_id</code>, <code>medication_id</code>, <code>status</code></td>
+      <td>Indexed by <code>user_id</code> and <code>dose_date</code></td>
+      <td>Immutable audit log of patient actions (Taken, Snoozed, Missed, Skipped).</td>
+    </tr>
+    <tr>
+      <td><code>schedules</code></td>
+      <td><code>id</code> (PK), <code>user_id</code>, <code>title</code>, <code>time_str</code></td>
+      <td>FK referencing <code>users(id)</code></td>
+      <td>Stores recurring daily routines and NLP-generated alerts.</td>
+    </tr>
+    <tr>
+      <td><code>care_circle_members</code></td>
+      <td><code>id</code> (PK), <code>user_id</code>, <code>name</code>, <code>relationship</code></td>
+      <td>FK referencing <code>users(id)</code></td>
+      <td>Support network contacts with consent-based notifications.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 5: REST API DOCUMENTATION ================= -->
+<h1>5. REST API Specifications</h1>
+
+<p>
+  All secure endpoints require the HTTP Authorization header: <code>Authorization: Bearer &lt;token&gt;</code>.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th>HTTP Method &amp; Endpoint</th>
+      <th>Request Payload</th>
+      <th>Response &amp; Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Auth</strong></td>
+      <td><code>POST /api/auth/login</code></td>
+      <td><code>{"email", "password"}</code></td>
+      <td><code>200 OK</code>: Returns JWT token and UserDto profile.</td>
+    </tr>
+    <tr>
+      <td><strong>Auth</strong></td>
+      <td><code>POST /api/auth/register</code></td>
+      <td><code>{"name", "email", "password"}</code></td>
+      <td><code>200 OK</code>: Creates user with hashed password; returns token.</td>
+    </tr>
+    <tr>
+      <td><strong>Auth</strong></td>
+      <td><code>POST /api/auth/google</code></td>
+      <td><em>None</em></td>
+      <td><code>200 OK</code>: Instant one-click demo patient login.</td>
+    </tr>
+    <tr>
+      <td><strong>Dashboard</strong></td>
+      <td><code>GET /api/dashboard/overview</code></td>
+      <td><em>Headers only</em></td>
+      <td><code>200 OK</code>: Aggregated adherence %, streak, today's schedule, stock, trend.</td>
+    </tr>
+    <tr>
+      <td><strong>Medications</strong></td>
+      <td><code>GET /api/medications</code></td>
+      <td><em>Headers only</em></td>
+      <td><code>200 OK</code>: Returns list of active medications for user.</td>
+    </tr>
+    <tr>
+      <td><strong>Medications</strong></td>
+      <td><code>POST /api/medications</code></td>
+      <td><code>{"name", "dosage", "pillCount", ...}</code></td>
+      <td><code>200 OK</code>: Adds new medication and calculates initial refill date.</td>
+    </tr>
+    <tr>
+      <td><strong>Medications</strong></td>
+      <td><code>DELETE /api/medications/{id}</code></td>
+      <td><em>Path variable</em></td>
+      <td><code>200 OK</code>: Deletes medication record.</td>
+    </tr>
+    <tr>
+      <td><strong>Doses</strong></td>
+      <td><code>POST /api/doses/action</code></td>
+      <td><code>{"medicationName", "status"}</code></td>
+      <td><code>200 OK</code>: Records action (TAKEN/SNOOZED); decrements pill count.</td>
+    </tr>
+    <tr>
+      <td><strong>Doses</strong></td>
+      <td><code>GET /api/doses/history</code></td>
+      <td><em>Headers only</em></td>
+      <td><code>200 OK</code>: Full historical log of doses for CSV export.</td>
+    </tr>
+    <tr>
+      <td><strong>Schedules</strong></td>
+      <td><code>POST /api/schedules/natural-language</code></td>
+      <td><code>{"prompt": "string"}</code></td>
+      <td><code>200 OK</code>: Parses natural language sentence into routine.</td>
+    </tr>
+    <tr>
+      <td><strong>Care Circle</strong></td>
+      <td><code>POST /api/care-circle</code></td>
+      <td><code>{"name", "relationship", "email"}</code></td>
+      <td><code>200 OK</code>: Adds caregiver with alert permission level.</td>
+    </tr>
+    <tr>
+      <td><strong>Settings</strong></td>
+      <td><code>PUT /api/user/profile</code></td>
+      <td><code>{"name", "email", "timezone"}</code></td>
+      <td><code>200 OK</code>: Updates profile details.</td>
+    </tr>
+    <tr>
+      <td><strong>Settings</strong></td>
+      <td><code>PUT /api/user/notifications</code></td>
+      <td><code>{"pushNotifications", ...}</code></td>
+      <td><code>200 OK</code>: Saves persistent toggle preferences.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 6: TOP 25 VIVA QUESTIONS & ANSWERS ================= -->
+<h1>6. Top 25 Viva Questions &amp; Model Answers</h1>
+
+<p>
+  Examiners frequently probe candidates on design choices, framework internals, security vulnerabilities, and database configurations. Memorize these key answers:
+</p>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q1</span> Why did you use Spring Boot instead of plain Java Servlets or Spring MVC?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> Plain Servlets require manual boilerplate for request routing, parameter mapping, thread pooling, and web.xml deployment. Traditional Spring MVC requires extensive XML/Java configuration. <strong>Spring Boot provides opinionated auto-configuration, dependency starters (like <code>spring-boot-starter-web</code>), and an embedded Apache Tomcat server</strong>. This allowed us to package the application as a self-contained, standalone executable JAR that boots in under 3 seconds without needing a separate application server.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q2</span> How does your authentication mechanism work, and why choose JWT over HTTP Sessions?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> We implemented <strong>Stateless JWT (JSON Web Token) authentication</strong>. Traditional HTTP sessions store state in server memory (JSESSIONID), which breaks horizontal scaling when multiple server replicas are deployed behind a load balancer without sticky sessions. With JWT, all user claims (userId, email, expiration) are cryptographically signed using HMAC-SHA256 and sent in the <code>Authorization: Bearer</code> header. The server verifies the token signature on each request via <code>JwtAuthenticationFilter</code> without reading from a session store.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q3</span> How are user passwords secured in the database? Why not SHA-256?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> Passwords are encrypted using <strong>BCrypt (via Spring Security's <code>BCryptPasswordEncoder</code>)</strong>. Plain SHA-256 is an unsalted cryptographic hash designed for fast throughput, making it vulnerable to rainbow table attacks and GPU-accelerated brute force. BCrypt automatically generates a cryptographic salt and employs a configurable work factor (default 10 iterations) making brute-force computation prohibitively expensive.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q4</span> What database are you using, and does the data survive when the server is restarted?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> We use the <strong>H2 Database Engine</strong> configured with <strong>file-based persistent storage</strong>: <code>jdbc:h2:file:./data/adherence_db;DB_CLOSE_DELAY=-1</code>. Unlike in-memory mode (<code>jdbc:h2:mem:...</code>) which deletes data when the JVM terminates, file-based H2 persists all tables, users, and logs onto the disk in the <code>data/</code> folder. It also includes an embedded H2 web console accessible at <code>/h2-console</code>.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q5</span> How does the backend communicate with the frontend during development? What is CORS?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> The frontend (Vite) runs on port 8443 and the backend (Spring Boot) runs on port 8080. Browsers enforce the <strong>Same-Origin Policy (SOP)</strong>, blocking requests between different ports unless Cross-Origin Resource Sharing (CORS) is enabled. We handled this two ways:
+    <br>1. In Spring Boot, we configured a <code>CorsConfigurationSource</code> bean allowing incoming HTTP methods (GET, POST, PUT, DELETE, OPTIONS).
+    <br>2. In <code>vite.config.ts</code>, we created an active proxy that routes any request matching <code>/api</code> directly to <code>http://127.0.0.1:8080</code>, eliminating CORS preflight overhead.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q6</span> What happens behind the scenes when a user clicks "Take now" on a medication?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong>
+    1. React triggers an asynchronous <code>fetch()</code> request to <code>POST /api/doses/action</code> passing the JWT token, medication ID, and status <code>"TAKEN"</code>.
+    2. Spring Boot's <code>DoseService</code> executes inside an <strong>ACID transaction (<code>@Transactional</code>)</strong>:
+       - Checks today's log: creates or updates a <code>DoseLog</code> entity with status <code>Taken</code> and current timestamp.
+       - Retrieves the <code>Medication</code> entity and decrements its <code>pillCount</code> by 1.
+    3. The updated state is committed to H2. The frontend receives the response, immediately reflects the taken badge, and invokes <code>loadOverview()</code> to dynamically refresh the adherence KPI percentage and streak counter.
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q7</span> Explain the Natural Language Processing (NLP) feature. Did you use an external AI API?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> The NLP feature is an intelligent heuristic parser implemented directly inside <code>ScheduleService.java</code>. It avoids latency, cost, and API downtime by parsing natural language patterns using Regular Expressions and semantic dictionary matching. It extracts:
+    - <strong>Time entities:</strong> Explicit timestamps (e.g., <code>"7:30 PM"</code>) or colloquial terms (<em>dinner &rarr; 7:30 PM, lunch &rarr; 1:00 PM, morning &rarr; 8:00 AM</em>).
+    - <strong>Frequency entities:</strong> <em>weekdays, weekends, daily, twice daily</em>.
+    - <strong>Medication entities:</strong> Matched against the user's registered medicine names.
+    It then auto-constructs a recurring <code>Schedule</code> record.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q8</span> What is Hibernate and what is the difference between JPA and Hibernate?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> <strong>JPA (Java Persistence API / Jakarta Persistence)</strong> is a specification or interface standard defining how Java objects should be mapped to relational databases. <strong>Hibernate</strong> is the underlying implementation (ORM provider) that implements the JPA interfaces. In our project, Spring Data JPA acts as an abstraction layer over Hibernate, allowing us to interact with the database using repository interfaces without writing boilerplate SQL.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q9</span> What design patterns are used in this project?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong>
+    <ul>
+      <li><strong>Controller-Service-Repository Pattern:</strong> Strict 3-layer architecture decoupling HTTP parsing, business logic, and database queries.</li>
+      <li><strong>DTO (Data Transfer Object) Pattern:</strong> Separates database entity models (<code>User</code>, <code>Medication</code>) from API payloads (<code>UserDto</code>, <code>AuthRequest</code>) to avoid exposing sensitive fields like password hashes.</li>
+      <li><strong>Filter / Interceptor Pattern:</strong> <code>JwtAuthenticationFilter</code> extends <code>OncePerRequestFilter</code> to intercept every request before hitting controllers.</li>
+      <li><strong>Dependency Injection &amp; Inversion of Control (IoC):</strong> Spring manages component lifecycles using constructor-based injection.</li>
+      <li><strong>Singleton Pattern:</strong> Spring Beans (Services, Repositories) are singletons managed by the Spring ApplicationContext.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q10</span> How does Spring Data JPA execute queries without implementation code?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> Spring Data JPA uses dynamic proxy generation at application startup. When we declare method signatures like <code>findByEmail(String email)</code> or <code>countByUserIdAndStatus(Long userId, String status)</code>, Spring parses the method name keywords (<em>findBy, countBy, And</em>) and automatically generates the corresponding JPQL/SQL query at runtime.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q11</span> What is the purpose of DataInitializer?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> <code>DataInitializer</code> implements Spring Boot's <code>CommandLineRunner</code> interface. Upon initial startup, it checks if the database is empty; if so, it seeds default demo users, medications, routines, care circle members, and 30 days of dose history. This ensures that the application is immediately testable and demonstrates real adherence graphs on initial evaluation.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q12</span> What is the difference between PUT and POST in your API?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> <strong>POST</strong> is used to create new resources (e.g., <code>POST /api/medications</code> to add a new medicine or <code>POST /api/auth/register</code> to create a user). <strong>PUT</strong> is idempotent and used to update existing resources (e.g., <code>PUT /api/user/profile</code> or <code>PUT /api/user/notifications</code> to replace or update settings).
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q13</span> How does React manage application state in your frontend?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong> State is managed using modern React Hooks:
+    - <code>useState</code> handles component-level reactive state (user profile, medication list, modal visibility, search queries).
+    - <code>useEffect</code> synchronizes side-effects (fetching overview data, verifying token validity upon initial load).
+    - <code>useCallback</code> memoizes data-fetching functions to prevent unnecessary component re-renders.
+    - Persistent state (JWT token and cached user data) is stored in the browser's <code>localStorage</code>.
+  </div>
+</div>
+
+<div class="qa-card avoid-break">
+  <div class="qa-question"><span class="qa-badge">Q14</span> How can you scale this project for production with millions of users?</div>
+  <div class="qa-answer">
+    <strong>Model Answer:</strong>
+    1. <strong>Database Migration:</strong> Switch from H2 to a distributed, production-grade RDBMS like PostgreSQL or MySQL (simply changing <code>application.properties</code> datasource URL and dialect).
+    2. <strong>Connection Pooling:</strong> Tune HikariCP connection pool parameters.
+    3. <strong>Caching:</strong> Introduce Redis for frequently queried dashboard KPIs and user sessions.
+    4. <strong>Containerization:</strong> Dockerize the Spring Boot backend and React frontend into multi-stage Docker images orchestrated with Kubernetes.
+    5. <strong>Message Broker:</strong> Add RabbitMQ or Apache Kafka to handle real-time SMS/Email caregiver notifications asynchronously.
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 7: SUMMARY CHEAT SHEET ================= -->
+<h1>7. Candidate Viva Cheat Sheet &amp; Rapid Defense Notes</h1>
+
+<h2>7.1 Quick Reference Matrix</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Key Terminology to Mention in Viva</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Backend Architecture</strong></td>
+      <td>Spring Boot 3, Java 17 LTS, Embedded Tomcat, Spring Security 6, Stateless REST API, Dependency Injection.</td>
+    </tr>
+    <tr>
+      <td><strong>Database &amp; Storage</strong></td>
+      <td>H2 Relational Database, File-based persistence (<code>./data/adherence_db</code>), Hibernate 6 ORM, DDL auto-update.</td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td>JJWT 0.12.5, HMAC-SHA256, BCrypt Password Hashing, CORS Configuration, <code>OncePerRequestFilter</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Frontend</strong></td>
+      <td>React 19 SPA, TypeScript type safety, Tailwind CSS v4, Vite development server, Proxy routing.</td>
+    </tr>
+    <tr>
+      <td><strong>Core Innovation</strong></td>
+      <td>Heuristic NLP routine scheduler, automatic inventory decrement, 30-day sliding adherence scoring, Care Circle consent model.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>7.2 Common Examiner Traps &amp; How to Avoid Them</h2>
+<ul>
+  <li><strong>Trap:</strong> <em>"Is your H2 database running in memory only?"</em><br>
+    <strong>Defense:</strong> <em>"No, sir/ma'am. We specifically configured <code>jdbc:h2:file:./data/adherence_db</code> so all transactions and logs are written to physical disk files and survive restarts."</em>
+  </li>
+  <li><strong>Trap:</strong> <em>"Where is your Tomcat server installed?"</em><br>
+    <strong>Defense:</strong> <em>"Tomcat is an embedded dependency inside our Spring Boot JAR file (via <code>spring-boot-starter-web</code>). We do not require an external application server."</em>
+  </li>
+  <li><strong>Trap:</strong> <em>"What if someone intercepts the JWT token?"</em><br>
+    <strong>Defense:</strong> <em>"In production, JWTs must always be transmitted over HTTPS (TLS encryption). Furthermore, tokens have a 24-hour expiration window and can be coupled with refresh tokens and token blacklisting for revocation."</em>
+  </li>
+  <li><strong>Trap:</strong> <em>"Why not use plain CSS instead of Tailwind?"</em><br>
+    <strong>Defense:</strong> <em>"Tailwind CSS v4 provides utility-first CSS compiled directly into minimal, optimized stylesheet bundles, preventing CSS bloat and naming conflicts."</em>
+  </li>
+</ul>
+
+<h2>7.3 Key File Locations in Codebase</h2>
+<ul>
+  <li><strong>Backend Entry Point:</strong> [`backend/src/main/java/com/elowen/ElowenApplication.java`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/ElowenApplication.java)</li>
+  <li><strong>Security Configuration:</strong> [`backend/src/main/java/com/elowen/security/SecurityConfig.java`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/security/SecurityConfig.java)</li>
+  <li><strong>JWT Provider:</strong> [`backend/src/main/java/com/elowen/security/JwtTokenProvider.java`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/security/JwtTokenProvider.java)</li>
+  <li><strong>Database Entities:</strong> [`backend/src/main/java/com/elowen/entity/`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/entity/)</li>
+  <li><strong>NLP Scheduler Service:</strong> [`backend/src/main/java/com/elowen/service/ScheduleService.java`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/backend/src/main/java/com/elowen/service/ScheduleService.java)</li>
+  <li><strong>Frontend API Client:</strong> [`frontend/src/api.ts`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/frontend/src/api.ts)</li>
+  <li><strong>Frontend Main UI:</strong> [`frontend/src/App.tsx`](file:///c:/Users/gdivy/Downloads/Smart%20Medication%20Adherence%20Dashboard/frontend/src/App.tsx)</li>
+</ul>
+
+<div style="margin-top: 30px; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 15px; color: #64748b; font-size: 11px;">
+  <strong>Elowen Smart Medication Adherence Platform &bull; Academic Viva Voce Guide &bull; All Rights Reserved</strong>
+</div>
+
+</body>
+</html>

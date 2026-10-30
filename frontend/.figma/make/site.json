@@ -1,0 +1,10 @@
+{
+  "description": "Helps people manage medications, track adherence, and anticipate refills with smart reminders, clear insights, and consent-based caregiver updates.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

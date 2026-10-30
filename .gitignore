@@ -1,0 +1,43 @@
+# Node dependencies & builds
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+*.tsbuildinfo
+*-debug.log*
+logs/
+*.log
+
+# Java & Maven
+target/
+backend/target/
+*.class
+*.jar
+*.war
+
+# H2 Database files & local data
+data/
+backend/data/
+*.db
+*.mv.db
+*.trace.db
+
+# Environment & credentials
+.env
+.env.*
+!.env.example
+
+# IDE & OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Temporary / Agent metadata
+.claude-replay.*
+.tmp-*
+/.figma/design-context/
+/.plugins/
+/.opencode-skills/

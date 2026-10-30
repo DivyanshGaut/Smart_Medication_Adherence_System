@@ -1,0 +1,14 @@
+{
+  "name": "elowen-medication-dashboard",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && java -jar target/elowen-backend-0.0.1-SNAPSHOT.jar",
+    "backend:build": "cd backend && mvn clean package -DskipTests"
+  },
+  "dependencies": {
+    "pdfkit": "^0.20.2"
+  }
+}
